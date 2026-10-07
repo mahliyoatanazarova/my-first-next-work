@@ -1,26 +1,98 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #141414;
+  --panel: #1c1c1c;
+  --text: #f1f1ef;
+  --muted: #9b9b96;
+  --line: #2a2a28;
+  --accent: #f5c242;
+  --serif: var(--font-serif), Georgia, serif;
+  --ui: var(--font-ui), system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; }
+body { background: var(--bg); color: var(--text); font-family: var(--ui); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.muted { color: var(--muted); font-size: 14px; }
+.link { text-decoration: underline; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* Header */
+.header { position: sticky; top: 0; z-index: 10; height: 64px; display: flex; align-items: center; gap: 24px; padding: 0 24px; background: var(--bg); border-bottom: 1px solid var(--line); }
+.logo { font-family: var(--serif); font-size: 32px; font-weight: 700; letter-spacing: -0.03em; }
+.search { display: flex; align-items: center; gap: 10px; width: 280px; padding: 0 16px; height: 42px; background: var(--panel); border-radius: 999px; color: var(--muted); }
+.search input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; }
+.header-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.btn-write { height: 36px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--text); color: var(--bg); font-weight: 600; cursor: pointer; }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Shell */
+.shell { display: flex; }
+.sidebar { position: sticky; top: 64px; align-self: flex-start; width: 240px; height: calc(100vh - 64px); padding: 32px 20px; border-right: 1px solid var(--line); flex-shrink: 0; }
+.sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+.nav-item { display: flex; align-items: center; gap: 16px; padding: 10px 12px; border-radius: 10px; color: var(--muted); font-size: 16px; }
+.nav-item:hover { background: var(--panel); color: var(--text); }
+.nav-item.active { color: var(--text); font-weight: 600; background: var(--panel); }
+.content { flex: 1; min-width: 0; }
+
+/* Page grid */
+.page { display: grid; grid-template-columns: minmax(0, 1fr) 340px; max-width: 1120px; margin: 0 auto; }
+.feed { padding: 32px 40px 80px; max-width: 760px; width: 100%; }
+.rail { padding: 40px 32px; border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: 40px; }
+.rail-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.rail-note { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+/* Tabs */
+.tabs { display: flex; gap: 28px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+.tabs a { padding: 14px 0; color: var(--muted); border-bottom: 1px solid transparent; margin-bottom: -1px; }
+.tabs a:hover { color: var(--text); }
+.tabs a.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* Post card */
+.post { display: flex; justify-content: space-between; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+.post-body { min-width: 0; flex: 1; }
+.post-author { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.post-author:hover span:not(.muted) { text-decoration: underline; }
+.post-title { font-family: var(--serif); font-size: 24px; line-height: 1.2; font-weight: 700; letter-spacing: -0.01em; margin: 10px 0 6px; }
+.post-excerpt { font-family: var(--serif); font-size: 17px; line-height: 1.5; color: var(--muted); }
+.post-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 16px; }
+.chip { padding: 3px 12px; background: var(--panel); border-radius: 999px; font-size: 13px; }
+.post-thumb { width: 160px; height: 110px; object-fit: cover; border-radius: 6px; background: var(--panel); flex-shrink: 0; align-self: center; }
+
+/* Avatar */
+.avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 600; color: #fff; flex-shrink: 0; }
+
+/* Right rail */
+.pick { margin-bottom: 20px; }
+.pick-title { font-weight: 700; line-height: 1.3; margin-top: 6px; }
+.who { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.who-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.who-text strong { font-size: 15px; }
+.who-text .muted { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px; }
+
+/* Buttons */
+.btn-follow, .btn-outline { height: 38px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--text); background: var(--text); color: var(--bg); font-weight: 600; cursor: pointer; }
+.btn-follow.small { height: 32px; padding: 0 14px; font-size: 14px; }
+.btn-follow.on, .btn-outline { background: transparent; color: var(--text); }
+
+/* Profile */
+.cover { height: 160px; border-radius: 14px; }
+.profile-head { display: flex; align-items: flex-end; justify-content: space-between; margin: -48px 24px 0; }
+.profile-head .avatar { border: 4px solid var(--bg); }
+.profile-name { font-family: var(--serif); font-size: 40px; line-height: 1.1; letter-spacing: -0.02em; margin: 16px 0 4px; }
+.profile-bio { font-family: var(--serif); font-size: 18px; color: #cfcfca; margin: 14px 0 28px; max-width: 56ch; }
+.about { display: grid; grid-template-columns: 120px 1fr; gap: 14px 16px; padding: 28px 0; }
+.about dt { color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .page { grid-template-columns: 1fr; }
+  .rail { display: none; }
+}
+@media (max-width: 760px) {
+  .sidebar, .search { display: none; }
+  .feed { padding: 16px 20px 60px; }
+  .post-thumb { width: 88px; height: 88px; }
+  .post-title { font-size: 20px; }
+  .profile-name { font-size: 32px; }
 }
